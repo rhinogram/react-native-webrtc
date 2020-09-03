@@ -26,10 +26,10 @@ Include in a Podfile in your react-native ios directory:
 pod 'react-native-webrtc', :path => '../node_modules/react-native-webrtc'
 ```
 
-You may have to change the `platform` field in your Podfile, as `react-native-webrtc` doesn't support iOS 9 - set it to '11.0' or above (otherwise you get an error when doing `pod install`):
+You may have to change the `platform` field in your Podfile, as `react-native-webrtc` doesn't support iOS 9 - set it to '10.0' or above (otherwise you get an error when doing `pod install`):
 
 ```
-platform :ios, '11.0'
+platform :ios, '10.0'
 ```
 
 ## Step 2. Add Library Search Path
@@ -125,12 +125,3 @@ The script and example are here: https://github.com/react-native-webrtc/react-na
 3. re-package device related archs only: `node ios_arch.js --device`
 4. delete files generated from `step 2` under `node_modules/react-native-webrtc/ios WebRTC.framework/` (e.g. with a command `rm node_modules/react-native-webrtc/ios/WebRTC.framework/WebRTC-*` from application root)
 5. you can check current arch use this command: `file node_modules/react-native-webrtc/ios/WebRTC.framework/WebRTC`
-
-## Appendix D - Autolinking
-
-(For React >= 0.60)
-
-Newer versions of React will auto-link modules, but installing via the podfile or following steps 2-4 will manually link the module as well. This will lead to an error.
-
-1. go to your root app folder
-2. unlink the module: 'npx react-native unlink react-native-webrtc'

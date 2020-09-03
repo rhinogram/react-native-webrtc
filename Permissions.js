@@ -2,7 +2,7 @@
 
 import { NativeModules, PermissionsAndroid, Platform } from 'react-native';
 
-const { WebRTCModule } = NativeModules;
+const { VWebRTCModule } = NativeModules;
 
 /**
  * Type declaration for a permissions descriptor.
@@ -39,7 +39,7 @@ class Permissions {
      * can be requested at a time (unless the multi-permission API is used,
      * but we are not using that for symmetry with the W3C API for querying)
      * so we'll queue them up.
-     * 
+     *
      * @param {string} perm - The requested permission from
      * {@link PermissionsAndroid.PERMISSIONS}
      * https://facebook.github.io/react-native/docs/permissionsandroid#permissions-that-require-prompting-the-user
@@ -87,7 +87,7 @@ class Permissions {
                     () => resolve(this.RESULT.PROMPT));
             });
         } else if (Platform.OS === 'ios') {
-            return WebRTCModule.checkPermission(permissionDesc.name);
+            return VWebRTCModule.checkPermission(permissionDesc.name);
         } else {
             return Promise.reject(new TypeError("Unsupported platform."));
         }
@@ -113,7 +113,7 @@ class Permissions {
                 = this._lastReq.then(requestPermission, requestPermission);
             return this._lastReq;
         } else if (Platform.OS === 'ios') {
-            return WebRTCModule.requestPermission(permissionDesc.name);
+            return VWebRTCModule.requestPermission(permissionDesc.name);
         } else {
             return Promise.reject(new TypeError("Unsupported platform."));
         }

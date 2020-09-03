@@ -1,7 +1,7 @@
 import {NativeModules, NativeEventEmitter} from 'react-native';
 
-const { WebRTCModule } = NativeModules;
+const { VWebRTCModule } = NativeModules;
 
-const EventEmitter = new NativeEventEmitter(WebRTCModule);
+const EventEmitter = new NativeEventEmitter(VWebRTCModule);
 
 export default EventEmitter;

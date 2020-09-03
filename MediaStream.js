@@ -6,7 +6,7 @@ import uuid from 'uuid';
 
 import MediaStreamTrack from './MediaStreamTrack';
 
-const {WebRTCModule} = NativeModules;
+const {VWebRTCModule} = NativeModules;
 
 const MEDIA_STREAM_EVENTS = [
   'active',
@@ -28,7 +28,7 @@ export default class MediaStream extends EventTarget(MEDIA_STREAM_EVENTS) {
 
   /**
    * The identifier of this MediaStream unique within the associated
-   * WebRTCModule instance. As the id of a remote MediaStream instance is unique
+   * VWebRTCModule instance. As the id of a remote MediaStream instance is unique
    * only within the associated RTCPeerConnection, it is not sufficiently unique
    * to identify this MediaStream across multiple RTCPeerConnections and to
    * unambiguously differentiate it from a local MediaStream instance not added
@@ -52,21 +52,21 @@ export default class MediaStream extends EventTarget(MEDIA_STREAM_EVENTS) {
 
       // Assigm a UUID to start with. It may get overridden for remote streams.
       this.id = uuid.v4();
-      // Local MediaStreams are created by WebRTCModule to have their id and
-      // reactTag equal because WebRTCModule follows the respective standard's
+      // Local MediaStreams are created by VWebRTCModule to have their id and
+      // reactTag equal because VWebRTCModule follows the respective standard's
       // recommendation for id generation i.e. uses UUID which is unique enough
       // for the purposes of reactTag.
       this._reactTag = this.id;
 
       if (typeof arg === 'undefined') {
-          WebRTCModule.mediaStreamCreate(this.id);
+          VWebRTCModule.mediaStreamCreate(this.id);
       } else if (arg instanceof MediaStream) {
-          WebRTCModule.mediaStreamCreate(this.id);
+          VWebRTCModule.mediaStreamCreate(this.id);
           for (const track of arg.getTracks()) {
               this.addTrack(track);
           }
       } else if (Array.isArray(arg)) {
-          WebRTCModule.mediaStreamCreate(this.id);
+          VWebRTCModule.mediaStreamCreate(this.id);
           for (const track of arg) {
               this.addTrack(track);
           }
@@ -89,7 +89,7 @@ export default class MediaStream extends EventTarget(MEDIA_STREAM_EVENTS) {
           return;
       }
       this._tracks.push(track);
-      WebRTCModule.mediaStreamAddTrack(this._reactTag, track.id);
+      VWebRTCModule.mediaStreamAddTrack(this._reactTag, track.id);
   }
 
   removeTrack(track: MediaStreamTrack) {
@@ -98,7 +98,7 @@ export default class MediaStream extends EventTarget(MEDIA_STREAM_EVENTS) {
         return;
       }
       this._tracks.splice(index, 1);
-      WebRTCModule.mediaStreamRemoveTrack(this._reactTag, track.id);
+      VWebRTCModule.mediaStreamRemoveTrack(this._reactTag, track.id);
   }
 
   getTracks(): Array<MediaStreamTrack> {
@@ -126,6 +126,6 @@ export default class MediaStream extends EventTarget(MEDIA_STREAM_EVENTS) {
   }
 
   release() {
-    WebRTCModule.mediaStreamRelease(this._reactTag);
+    VWebRTCModule.mediaStreamRelease(this._reactTag);
   }
 }
